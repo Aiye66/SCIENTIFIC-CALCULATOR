@@ -1,57 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific Calculator</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pregnancy Journey Tracker</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    background:white;
+    border-radius:30px;
+    padding:30px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1{
+    text-align:center;
+    color:#ff4f81;
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+    font-size:1.1rem;
+}
+
+.input-section{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.input-section label{
+    font-weight:600;
+    color:#444;
+    font-size:1rem;
+}
+
+input[type="date"]{
+    padding:15px;
+    border-radius:15px;
+    border:none;
+    background:#f5f5f5;
+    font-size:1rem;
+    box-shadow:inset 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.track-btn{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#ff4f81,#ff758c);
+    border:none;
+    padding:16px 35px;
+    border-radius:50px;
+    color:white;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.4s;
+    box-shadow:0 10px 25px rgba(255,79,129,0.4);
+}
+
+.track-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 15px 30px rgba(255,79,129,0.5);
+}
+
+.track-btn::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,0.3);
+    transition:0.5s;
+}
+
+.track-btn:hover::before{
+    left:100%;
+}
+
+.hidden{
+    display:none;
+}
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:linear-gradient(135deg,#fff0f3,#ffe5ec);
+    padding:25px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,0.08);
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h3{
+    color:#ff4f81;
+    margin-bottom:10px;
+}
+
+.card p{
+    font-size:1.4rem;
+    font-weight:bold;
+    color:#333;
+}
+
+.progress-container{
+    width:100%;
+    background:#eee;
+    border-radius:50px;
+    overflow:hidden;
+    margin:30px 0;
+    height:35px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#ff4f81,#ff758c);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+    transition:1s;
+}
+
+.info-box{
+    background:#fff7fa;
+    border-left:8px solid #ff4f81;
+    padding:25px;
+    border-radius:20px;
+    margin-top:20px;
+}
+
+.info-box h4{
+    color:#ff4f81;
+    margin-bottom:15px;
+    font-size:1.5rem;
+}
+
+.info-box p{
+    color:#555;
+    line-height:1.8;
+    font-size:1rem;
+}
+
+.baby-section{
+    margin-top:30px;
+    text-align:center;
+}
+
+.baby-section img{
+    width:100%;
+    max-width:350px;
+    border-radius:25px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.2);
+    transition:0.4s;
+}
+
+.baby-section img:hover{
+    transform:scale(1.03);
+}
+
+.baby-section h3{
+    margin-bottom:15px;
+    color:#ff4f81;
+    font-size:1.8rem;
+}
+
+.calendar-box{
+    margin-top:30px;
+    background:#fff0f3;
+    padding:20px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.calendar-box h3{
+    color:#ff4f81;
+    margin-bottom:10px;
+}
+
+.tip-box{
+    margin-top:30px;
+    background:linear-gradient(135deg,#ffe0ec,#fff5f8);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.tip-box h3{
+    color:#ff4f81;
+    margin-bottom:10px;
+}
+
+.tip-box p{
+    color:#555;
+    line-height:1.8;
+}
+
+.footer{
+    margin-top:40px;
+    text-align:center;
+    color:#777;
+    font-size:0.9rem;
+}
+
+@media(max-width:768px){
+    h1{
+        font-size:2.2rem;
+    }
+
+    .track-btn{
+        width:100%;
+    }
+
+    input[type="date"]{
+        width:100%;
+    }
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <div class="calculator">
-        <div class="display-container">
-            <input type="text" id="display" disabled>
-        </div>
 
-        <div class="buttons">
-            <!-- Top Controls -->
-            <button class="control" onclick="clearDisplay()">C</button>
-            <button class="control" onclick="deleteLast()">DEL</button>
-            <button class="operator" onclick="append('%')">%</button>
-            <button class="operator" onclick="append('/')">÷</button>
+    <h1>🤰 Pregnancy Tracker</h1>
+    <p class="subtitle">Track your beautiful pregnancy journey week by week</p>
 
-            <!-- Numbers -->
-            <button onclick="append('7')">7</button>
-            <button onclick="append('8')">8</button>
-            <button onclick="append('9')">9</button>
-            <button class="operator" onclick="append('*')">×</button>
-
-            <button onclick="append('4')">4</button>
-            <button onclick="append('5')">5</button>
-            <button onclick="append('6')">6</button>
-            <button class="operator" onclick="append('-')">−</button>
-
-            <button onclick="append('1')">1</button>
-            <button onclick="append('2')">2</button>
-            <button onclick="append('3')">3</button>
-            <button class="operator" onclick="append('+')">+</button>
-
-            <button class="zero" onclick="append('0')">0</button>
-            <button onclick="append('.')">.</button>
-            <button class="equals" onclick="calculate()">=</button>
-
-            <!-- Scientific -->
-            <button class="scientific" onclick="sin()">sin</button>
-            <button class="scientific" onclick="cos()">cos</button>
-            <button class="scientific" onclick="tan()">tan</button>
-            <button class="scientific" onclick="log()">log</button>
-            <button class="scientific" onclick="sqrt()">√</button>
-            <button class="scientific" onclick="power()">x²</button>
-        </div>
+    <div class="input-section">
+        <label for="lmp-date">First Day of Last Menstrual Period:</label>
+        <input type="date" id="lmp-date">
+        <button class="track-btn" onclick="calculatePregnancy()">
+            ✨ Track Pregnancy
+        </button>
     </div>
+
+    <div id="dashboard" class="hidden">
+
+        <div class="card-grid">
+
+            <div class="card">
+                <h3>📅 Due Date</h3>
+                <p id="due-date">-</p>
+            </div>
+
+            <div class="card">
+                <h3>🍼 Current Week</h3>
+                <p id="current-week">-</p>
+            </div>
+
+            <div class="card">
+                <h3>⏳ Days Remaining</h3>
+                <p id="days-remaining">-</p>
+            </div>
+
+            <div class="card">
+                <h3>📆 Trimester</h3>
+                <p id="trimester">-</p>
+            </div>
+
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar">0%</div>
+        </div>
+
+        <div class="info-box">
+            <h4 id="stage-title">Baby Development</h4>
+            <p id="stage-desc">
+                Enter your pregnancy date to see your baby's development.
+            </p>
+        </div>
+
+        <div class="baby-section">
+            <h3>👶 Baby Development Image</h3>
+            <img id="baby-image" src="" alt="Baby Development">
+        </div>
+
+        <div class="calendar-box">
+            <h3>📌 Today's Date</h3>
+            <p id="today-date"></p>
+        </div>
+
+        <div class="tip-box">
+            <h3>💡 Pregnancy Tip</h3>
+            <p id="pregnancy-tip"></p>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        ❤️ Designed for Mothers-to-Be
+    </div>
+
 </div>
 
-<script src="script.js"></script>
+<script>
+function calculatePregnancy(){
+
+    const lmpInput = document.getElementById('lmp-date').value;
+
+    if(!lmpInput){
+        alert("Please select your last menstrual period date.");
+        return;
+    }
+
+    const lmpDate = new Date(lmpInput);
+    const today = new Date();
+
+    const diffTime = today - lmpDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    const weeks = Math.floor(diffDays / 7);
+
+    const dueDate = new Date(lmpDate);
+    dueDate.setDate(dueDate.getDate() + 280);
+
+    const daysRemaining = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+
+    const progress = Math.min((weeks / 40) * 100, 100);
+
+    document.getElementById('dashboard').classList.remove('hidden');
+
+    document.getElementById('due-date').innerText =
+        dueDate.toDateString();
+
+    document.getElementById('current-week').innerText =
+        weeks + " Weeks";
+
+    document.getElementById('days-remaining').innerText =
+        daysRemaining + " Days";
+
+    document.getElementById('progress-bar').style.width =
+        progress + "%";
+
+    document.getElementById('progress-bar').innerText =
+        Math.floor(progress) + "%";
+
+    document.getElementById('today-date').innerText =
+        today.toDateString();
+
+    let trimester = "";
+    let title = "";
+    let desc = "";
+    let image = "";
+    let tip = "";
+
+    if(weeks <= 13){
+
+        trimester = "First Trimester";
+
+        title = "🌱 First Trimester";
+
+        desc = "Your baby is beginning to develop important organs, heartbeat, tiny hands and legs.";
+
+        image = "1ST.jpg";
+
+        tip = "Take folic acid regularly, stay hydrated and get enough rest.";
+
+    }
+    else if(weeks <= 27){
+
+        trimester = "Second Trimester";
+
+        title = "🍼 Second Trimester";
+
+        desc = "Your baby is growing rapidly. Movements become stronger and organs continue developing.";
+
+        image = "2ND.jpg";
+
+        tip = "Eat balanced meals rich in calcium, protein and iron.";
+
+    }
+    else{
+
+        trimester = "Third Trimester";
+
+        title = "👶 Third Trimester";
+
+        desc = "Your baby is preparing for birth, gaining weight and developing stronger lungs.";
+
+        image = "3RD.jpg";
+
+        tip = "Attend antenatal appointments regularly and prepare for delivery.";
+
+    }
+
+    document.getElementById('trimester').innerText = trimester;
+
+    document.getElementById('stage-title').innerText = title;
+
+    document.getElementById('stage-desc').innerText = desc;
+
+    document.getElementById('baby-image').src = image;
+
+    document.getElementById('pregnancy-tip').innerText = tip;
+}
+</script>
+
 </body>
 </html>
